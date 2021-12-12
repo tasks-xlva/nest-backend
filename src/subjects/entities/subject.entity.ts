@@ -1,5 +1,6 @@
 import { Column, PrimaryGeneratedColumn, ManyToOne, Entity } from 'typeorm'
 import { Group } from '@/groups/entities/group.entity'
+import { ApiHideProperty } from '@nestjs/swagger'
 
 @Entity()
 export class Subject {
@@ -16,6 +17,7 @@ export class Subject {
   @Column({ length: 1024, nullable: true })
   description?: string
 
+  @ApiHideProperty()
   @ManyToOne(() => Group, { onDelete: 'RESTRICT', nullable: false })
   group: Group
 }
