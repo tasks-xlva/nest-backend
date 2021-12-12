@@ -31,8 +31,16 @@ export class SubjectsService {
     )
   }
 
-  findAll(): Promise<Subject[]> {
-    return this.subjectsRepository.find()
+  async findAll(groupNumber: string): Promise<Subject[]> {
+    const group = await this.groupsRepository.findOne({ number: groupNumber })
+
+    if (groupNumber && !group) {
+      throw new NotFoundException('Provided group not found')
+    }
+
+    return group
+      ? this.subjectsRepository.find({ group })
+      : this.subjectsRepository.find()
   }
 
   findOne(id: number): Promise<Subject> {

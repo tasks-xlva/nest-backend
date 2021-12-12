@@ -9,11 +9,12 @@ import {
   HttpCode,
   UseInterceptors,
   ClassSerializerInterceptor,
+  Query,
 } from '@nestjs/common'
 import { SubjectsService } from './subjects.service'
 import { CreateSubjectDto } from './dto/create-subject.dto'
 import { UpdateSubjectDto } from './dto/update-subject.dto'
-import { ApiConsumes, ApiTags } from '@nestjs/swagger'
+import { ApiConsumes, ApiQuery, ApiTags } from '@nestjs/swagger'
 import { Subject } from './entities/subject.entity'
 
 @Controller('subjects')
@@ -28,8 +29,9 @@ export class SubjectsController {
   }
 
   @Get()
-  findAll() {
-    return this.subjectsService.findAll()
+  @ApiQuery({ name: 'group', type: 'string', required: false })
+  findAll(@Query('group') group) {
+    return this.subjectsService.findAll(group)
   }
 
   @Get(':id')
