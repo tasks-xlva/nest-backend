@@ -18,14 +18,17 @@ async function bootstrap() {
   app.useGlobalFilters(new TypeORMExceptionFilter())
 
   const config = new DocumentBuilder()
-    .setTitle('Tasks')
-    .setDescription('The tasks API description')
-    .setVersion('1.0')
+    .setTitle('Tasks API')
+    .setVersion('1')
     .addBearerAuth()
     .build()
   const document = SwaggerModule.createDocument(app, config)
-  SwaggerModule.setup('api', app, document, {
-    uiConfig: { persistAuthorization: true },
+  SwaggerModule.setup('', app, document, {
+    uiConfig: {
+      persistAuthorization: true,
+      layout: 'BaseLayout',
+      displayRequestDuration: true,
+    },
   })
 
   await app.listen(3000)

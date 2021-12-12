@@ -12,7 +12,7 @@ import {
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiConsumes, ApiTags } from '@nestjs/swagger'
 
 @Controller('users')
 @ApiTags('users')
@@ -20,6 +20,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @ApiConsumes('application/x-www-form-urlencoded')
   async create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto)
   }
@@ -35,6 +36,7 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @ApiConsumes('application/x-www-form-urlencoded')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto)
   }
