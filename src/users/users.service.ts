@@ -12,8 +12,10 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  create(createUserDto: CreateUserDto) {
-    return this.usersRepository.save(createUserDto)
+  async create(createUserDto: CreateUserDto) {
+    return this.usersRepository.findOne(
+      await this.usersRepository.save(createUserDto),
+    )
   }
 
   findAll(): Promise<User[]> {
@@ -24,8 +26,10 @@ export class UsersService {
     return this.usersRepository.findOne(id)
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    return this.usersRepository.findOne(
+      await this.usersRepository.save({ id, ...updateUserDto }),
+    )
   }
 
   async remove(id: number): Promise<void> {

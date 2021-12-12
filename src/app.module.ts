@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common'
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
 import { UsersModule } from '@/users/users.module'
 import { ConfigModule } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { GroupsModule } from './groups/groups.module'
 
 @Module({
   imports: [
@@ -16,10 +15,10 @@ import { TypeOrmModule } from '@nestjs/typeorm'
       database: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       autoLoadEntities: true,
+      synchronize: true,
     }),
     UsersModule,
+    GroupsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
