@@ -7,14 +7,12 @@ import {
   Param,
   Delete,
   HttpCode,
-  UseInterceptors,
-  ClassSerializerInterceptor,
   Query,
 } from '@nestjs/common'
 import { SubjectsService } from './subjects.service'
 import { CreateSubjectDto } from './dto/create-subject.dto'
 import { UpdateSubjectDto } from './dto/update-subject.dto'
-import { ApiConsumes, ApiQuery, ApiTags } from '@nestjs/swagger'
+import { ApiQuery, ApiTags } from '@nestjs/swagger'
 import { Subject } from './entities/subject.entity'
 
 @Controller('subjects')
@@ -23,7 +21,6 @@ export class SubjectsController {
   constructor(private readonly subjectsService: SubjectsService) {}
 
   @Post()
-  @ApiConsumes('application/x-www-form-urlencoded')
   create(@Body() createSubjectDto: CreateSubjectDto) {
     return this.subjectsService.create(createSubjectDto)
   }
@@ -40,7 +37,6 @@ export class SubjectsController {
   }
 
   @Patch(':id')
-  @ApiConsumes('application/x-www-form-urlencoded')
   update(@Param('id') id: string, @Body() updateSubjectDto: UpdateSubjectDto) {
     return this.subjectsService.update(+id, updateSubjectDto)
   }

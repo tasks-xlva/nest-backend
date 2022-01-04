@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { GroupsModule } from './groups/groups.module'
 import { SubjectsModule } from './subjects/subjects.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { SubjectsModule } from './subjects/subjects.module';
     UsersModule,
     GroupsModule,
     SubjectsModule,
+    TasksModule,
   ],
 })
 export class AppModule {}
