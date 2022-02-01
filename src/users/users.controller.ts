@@ -1,17 +1,6 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  ParseIntPipe,
-  HttpCode,
-} from '@nestjs/common'
+import { Controller, Get, Post, Body } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
-import { UpdateUserDto } from './dto/update-user.dto'
 import { ApiTags } from '@nestjs/swagger'
 
 @Controller('users')
@@ -29,22 +18,22 @@ export class UsersController {
     return this.usersService.findAll()
   }
 
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.findOne(+id)
-  }
+  // @Get(':email')
+  // findOne(@Param('id', ParseIntPipe) id: number) {
+  //   return this.usersService.findOne(+id)
+  // }
 
-  @Patch(':id')
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
-    return this.usersService.update(+id, updateUserDto)
-  }
+  // @Patch(':email')
+  // update(
+  //   @Param('id', ParseIntPipe) id: number,
+  //   @Body() updateUserDto: UpdateUserDto,
+  // ) {
+  //   return this.usersService.update(email, updateUserDto)
+  // }
 
-  @Delete(':id')
-  @HttpCode(204)
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.remove(+id)
-  }
+  // @Delete(':email')
+  // @HttpCode(204)
+  // remove(@Param('email') email: string) {
+  //   return this.usersService.remove(email)
+  // }
 }

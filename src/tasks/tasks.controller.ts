@@ -8,12 +8,13 @@ import {
   Delete,
   ParseIntPipe,
   HttpCode,
-  Query,
+  Query, UseGuards,
 } from '@nestjs/common'
 import { TasksService } from './tasks.service'
 import { CreateTaskDto } from './dto/create-task.dto'
 import { UpdateTaskDto } from './dto/update-task.dto'
 import { ApiQuery, ApiTags } from '@nestjs/swagger'
+import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard'
 
 @Controller('tasks')
 @ApiTags('tasks')
@@ -25,6 +26,7 @@ export class TasksController {
     return this.tasksService.create(createTaskDto)
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   @ApiQuery({ name: 'subject', type: 'number', required: false })
   findAll(@Query('subject') subject) {

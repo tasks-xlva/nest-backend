@@ -5,17 +5,18 @@ import {
 } from '@nestjs/platform-fastify'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { AppModule } from './app.module'
-import { TypeORMExceptionFilter } from '@/typeorm-exception.filter'
+import { TypeormExceptionsFilter } from '@/shared/typeorm-exceptions.filter'
 import { ValidationPipe } from '@nestjs/common'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter({ logger: true }),
+    { cors: { origin: `http://localhost:3000` } },
   )
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }))
-  app.useGlobalFilters(new TypeORMExceptionFilter())
+  app.useGlobalFilters(new TypeormExceptionsFilter())
 
   const config = new DocumentBuilder()
     .setTitle('Tasks API')
