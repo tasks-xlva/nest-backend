@@ -18,6 +18,7 @@ import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard'
 
 @Controller('tasks')
 @ApiTags('tasks')
+@UseGuards(JwtAuthGuard)
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
@@ -26,7 +27,6 @@ export class TasksController {
     return this.tasksService.create(createTaskDto)
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   @ApiQuery({ name: 'subject', type: 'number', required: false })
   findAll(@Query('subject') subject) {

@@ -37,12 +37,14 @@ export class UsersService {
     )
   }
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find()
-  }
+  // findAll() {
+  //   return this.usersRepository.find()
+  // }
 
-  findOne(email: User['email']): Promise<User> {
-    return this.usersRepository.findOne(email)
+  async findOne(email: User['email']) {
+    const user = await this.usersRepository.findOne(email)
+    delete user.password
+    return user
   }
 
   // async update(id: number, updateUserDto: UpdateUserDto) {
