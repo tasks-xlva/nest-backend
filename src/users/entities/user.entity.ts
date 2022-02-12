@@ -1,18 +1,22 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm'
+import { Column, Model, Table, AllowNull } from 'sequelize-typescript'
 import { ApiHideProperty } from '@nestjs/swagger'
 
-@Entity()
-export class User {
-  @Column()
+@Table
+export class User extends Model {
+  @AllowNull(false)
+  @Column
   firstName: string
 
-  @Column()
+  @AllowNull(false)
+  @Column
   lastName: string
 
-  @PrimaryColumn()
+  @AllowNull(false)
+  @Column({ unique: `email` })
   email: string
 
   @ApiHideProperty()
-  @Column()
+  @AllowNull(false)
+  @Column
   password: string
 }

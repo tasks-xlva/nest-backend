@@ -1,11 +1,23 @@
-import { Entity, PrimaryColumn, Column, Generated } from 'typeorm'
+import {
+  Table,
+  Column,
+  PrimaryKey,
+  Model,
+  AllowNull,
+} from 'sequelize-typescript'
+import { DataTypes } from 'sequelize'
 
-@Entity()
-export class Group {
-  @PrimaryColumn()
+@Table
+export class Group extends Model {
+  @PrimaryKey
+  @Column
   number: string
 
-  @Column({ type: 'uuid' })
-  @Generated('uuid')
+  @AllowNull(false)
+  @Column({
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    unique: `uuid`,
+  })
   uuid: string
 }

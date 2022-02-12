@@ -12,7 +12,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(email: User['email'], password: User['password']) {
+  async validateLocalUser(email: User['email'], password: User['password']) {
     const user = await this.usersService.findOne(email)
     if (user && (await compare(password, user.password))) {
       delete user.password
@@ -21,7 +21,17 @@ export class AuthService {
     return null
   }
 
+  async validateJWTUser(email: User['email']) {
+    const user = await this.usersService.findOne(email)
+    if (user) {
+      delete user.password
+      return user
+    }
+    return null
+  }
+
   getToken(user: User): TokenDto {
+    console.log(user)
     return {
       access: this.jwtService.sign(
         {

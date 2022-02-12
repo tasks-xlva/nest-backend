@@ -6,20 +6,22 @@ import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard'
 
 @Controller('users')
 @ApiTags('users')
-@UseGuards(JwtAuthGuard)
-@ApiBearerAuth()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto)
+    const user = (await this.usersService.create(createUserDto)).toJSON()
+    delete user?.password
+    return user
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @Get('me')
   async findMe(@Request() req) {
-    const user = await this.usersService.findOne(req.user.email)
-    delete user.password
+    const user = (await this.usersService.findOne(req.user.email)).toJSON()
+    delete user?.password
     return user
   }
 

@@ -1,59 +1,50 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { CreateTaskDto } from './dto/create-task.dto'
 import { UpdateTaskDto } from './dto/update-task.dto'
-import { InjectRepository } from '@nestjs/typeorm'
 import { Task } from './entities/task.entity'
-import { Repository } from 'typeorm'
 import { Subject } from '@/subjects/entities/subject.entity'
+import { InjectModel } from '@nestjs/sequelize'
 
 @Injectable()
 export class TasksService {
   constructor(
-    @InjectRepository(Task)
-    private tasksRepository: Repository<Task>,
+    @InjectModel(Task)
+    private tasksModel: typeof Task,
 
-    @InjectRepository(Subject)
-    private subjectsRepository: Repository<Subject>,
+    @InjectModel(Subject)
+    private subjectsModel: typeof Subject,
   ) {}
 
   async create(createTaskDto: CreateTaskDto) {
-    const subject = await this.subjectsRepository.findOne(createTaskDto.subject)
+    const subject = await this.subjectsModel.findOne({
+      where: { id: createTaskDto.subjectId },
+    })
 
     if (!subject) {
       throw new NotFoundException('Provided subject not found')
     }
 
-    return this.tasksRepository.findOne(
-      await this.tasksRepository.save({
-        ...createTaskDto,
-        subject,
-      }),
-    )
+    return this.tasksModel.create({
+      ...createTaskDto,
+      subjectId: subject.id,
+    })
   }
 
-  async findAll(subjectId: number): Promise<Task[]> {
-    const subject = await this.subjectsRepository.findOne(subjectId)
-
-    if (subjectId && !subject) {
-      throw new NotFoundException('Provided subject not found')
-    }
-
-    return subject
-      ? this.tasksRepository.find({ subject })
-      : this.tasksRepository.find()
+  async findAll(subjectId?: number): Promise<Task[]> {
+    return subjectId
+      ? this.tasksModel.findAll({ where: { subjectId } })
+      : this.tasksModel.findAll()
   }
 
   findOne(id: number): Promise<Task> {
-    return this.tasksRepository.findOne(id)
+    return this.tasksModel.findOne({ where: { id } })
   }
 
   async update(id: number, updateTaskDto: UpdateTaskDto) {
-    return this.tasksRepository.findOne(
-      await this.tasksRepository.save({ id, ...updateTaskDto }),
-    )
+    return await this.tasksModel.update({ ...updateTaskDto }, { where: { id } })
   }
 
   async remove(id: number): Promise<void> {
-    await this.tasksRepository.delete(id)
+    await this.tasksModel.truncate({ where: { id } })
   }
 }

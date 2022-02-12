@@ -1,59 +1,50 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { CreateSubjectDto } from './dto/create-subject.dto'
 import { UpdateSubjectDto } from './dto/update-subject.dto'
-import { InjectRepository } from '@nestjs/typeorm'
+import { InjectModel } from '@nestjs/sequelize'
 import { Subject } from './entities/subject.entity'
-import { Repository } from 'typeorm'
 import { Group } from '@/groups/entities/group.entity'
 
 @Injectable()
 export class SubjectsService {
   constructor(
-    @InjectRepository(Subject)
-    private subjectsRepository: Repository<Subject>,
+    @InjectModel(Subject)
+    private subjectsModel: typeof Subject,
 
-    @InjectRepository(Group)
-    private groupsRepository: Repository<Group>,
+    @InjectModel(Group)
+    private groupsModel: typeof Group,
   ) {}
 
   async create(createSubjectDto: CreateSubjectDto) {
-    const group = await this.groupsRepository.findOne(createSubjectDto.group)
+    const group = await this.groupsModel.findOne({
+      where: { group: createSubjectDto.group },
+    })
 
     if (!group) {
       throw new NotFoundException('Provided group not found')
     }
 
-    return this.subjectsRepository.findOne(
-      await this.subjectsRepository.save({
-        ...createSubjectDto,
-        group,
-      }),
-    )
+    return this.subjectsModel.create({
+      ...createSubjectDto,
+      group,
+    })
   }
 
-  async findAll(groupNumber: string): Promise<Subject[]> {
-    const group = await this.groupsRepository.findOne({ number: groupNumber })
-
-    if (groupNumber && !group) {
-      throw new NotFoundException('Provided group not found')
-    }
-
-    return group
-      ? this.subjectsRepository.find({ group })
-      : this.subjectsRepository.find()
+  async findAll(groupNumber?: string): Promise<Subject[]> {
+    return groupNumber
+      ? this.subjectsModel.findAll({ where: { groupNumber } })
+      : this.subjectsModel.findAll()
   }
 
   findOne(id: number): Promise<Subject> {
-    return this.subjectsRepository.findOne(id)
+    return this.subjectsModel.findOne({ where: { id } })
   }
 
   async update(id: number, updateSubjectDto: UpdateSubjectDto) {
-    return this.subjectsRepository.findOne(
-      await this.subjectsRepository.save({ id, ...updateSubjectDto }),
-    )
+    return this.subjectsModel.update(updateSubjectDto, { where: { id } })
   }
 
   async remove(id: number): Promise<void> {
-    await this.subjectsRepository.delete(id)
+    await this.subjectsModel.truncate({ where: { id } })
   }
 }

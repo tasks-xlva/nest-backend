@@ -5,7 +5,7 @@ import {
 } from '@nestjs/platform-fastify'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { AppModule } from './app.module'
-import { TypeormExceptionsFilter } from '@/shared/typeorm-exceptions.filter'
+import { SequelizeExceptionsFilter } from '@/shared/sequelize-exceptions.filter'
 import { ValidationPipe } from '@nestjs/common'
 
 async function bootstrap() {
@@ -16,7 +16,7 @@ async function bootstrap() {
   )
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }))
-  app.useGlobalFilters(new TypeormExceptionsFilter())
+  app.useGlobalFilters(new SequelizeExceptionsFilter())
 
   const config = new DocumentBuilder()
     .setTitle('Tasks API')

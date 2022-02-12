@@ -1,22 +1,29 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { ApiHideProperty } from '@nestjs/swagger'
 import { Subject } from '@/subjects/entities/subject.entity'
+import {
+  AllowNull,
+  Column,
+  ForeignKey,
+  Length,
+  Model,
+  Table,
+} from 'sequelize-typescript'
+import { DataTypes } from 'sequelize'
 
-@Entity()
-export class Task {
-  @PrimaryGeneratedColumn()
-  id: number
-
-  @Column()
+@Table
+export class Task extends Model {
+  @AllowNull(false)
+  @Column
   name: string
 
-  @Column({ nullable: true })
+  @Length({ max: 1023 })
+  @Column
   description?: string
 
-  @Column({ nullable: true })
+  @Column({ type: DataTypes.TIME })
   deadline?: string
 
   @ApiHideProperty()
-  @ManyToOne(() => Subject, { onDelete: 'RESTRICT', nullable: false })
-  subject: Subject
+  @ForeignKey(() => Subject)
+  subjectId: number
 }

@@ -22,5 +22,5 @@ export class CreateTaskDto {
 
   @IsNumber()
   @IsNotEmpty()
-  subject: number
+  subjectId: number
 }

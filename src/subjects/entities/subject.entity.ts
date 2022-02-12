@@ -1,23 +1,18 @@
-import { Column, PrimaryGeneratedColumn, ManyToOne, Entity } from 'typeorm'
+import { Column, Table, Length, ForeignKey, Model } from 'sequelize-typescript'
 import { Group } from '@/groups/entities/group.entity'
 import { ApiHideProperty } from '@nestjs/swagger'
 
-@Entity()
-export class Subject {
-  constructor(partial: Partial<Subject>) {
-    Object.assign(this, partial)
-  }
-
-  @PrimaryGeneratedColumn()
-  id: number
-
-  @Column()
+@Table
+export class Subject extends Model {
+  @Column
   name: string
 
-  @Column({ length: 1024, nullable: true })
+  @Length({ max: 1024 })
+  @Column
   description?: string
 
   @ApiHideProperty()
-  @ManyToOne(() => Group, { onDelete: 'RESTRICT', nullable: false })
-  group: Group
+  @ForeignKey(() => Group)
+  @Column
+  groupNumber: string
 }

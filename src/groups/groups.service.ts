@@ -1,27 +1,24 @@
 import { Injectable } from '@nestjs/common'
 import { CreateGroupDto } from './dto/create-group.dto'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
 import { Group } from './entities/group.entity'
+import { InjectModel } from '@nestjs/sequelize'
 
 @Injectable()
 export class GroupsService {
   constructor(
-    @InjectRepository(Group)
-    private groupsRepository: Repository<Group>,
+    @InjectModel(Group)
+    private groupsModel: typeof Group,
   ) {}
 
   async create(createGroupDto: CreateGroupDto) {
-    return this.groupsRepository.findOne(
-      await this.groupsRepository.save(createGroupDto),
-    )
+    return await this.groupsModel.create({ ...createGroupDto })
   }
 
   findAll() {
-    return this.groupsRepository.find()
+    return this.groupsModel.findAll()
   }
 
   findOne(number: string) {
-    return this.groupsRepository.findOne(number)
+    return this.groupsModel.findOne({ where: { number } })
   }
 }

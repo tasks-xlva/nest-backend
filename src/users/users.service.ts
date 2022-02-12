@@ -1,22 +1,21 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { CreateUserDto } from './dto/create-user.dto'
-import { InjectRepository } from '@nestjs/typeorm'
 import { User } from './entities/user.entity'
-import { Repository } from 'typeorm'
 import { hash } from 'bcrypt'
+import { InjectModel } from '@nestjs/sequelize'
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    @InjectModel(User)
+    private userModel: typeof User,
   ) {}
 
   async validateUser(
     email: User['email'],
     pass: User['password'],
   ): Promise<any> {
-    const user = await this.usersRepository.findOne(email)
+    const user = await this.userModel.findOne({ where: { email } })
     if (user && user.password === pass) {
       delete user.password
       return user
@@ -29,12 +28,10 @@ export class UsersService {
       throw new BadRequestException(`Passwords doesn't match`)
     }
 
-    return this.usersRepository.findOne(
-      await this.usersRepository.save({
-        ...createUserDto,
-        password: await hash(password, 10),
-      }),
-    )
+    return await this.userModel.create({
+      ...createUserDto,
+      password: await hash(password, 10),
+    })
   }
 
   // findAll() {
@@ -42,7 +39,7 @@ export class UsersService {
   // }
 
   async findOne(email: User['email']) {
-    return await this.usersRepository.findOne(email)
+    return await this.userModel.findOne({ where: { email } })
   }
 
   // async update(id: number, updateUserDto: UpdateUserDto) {

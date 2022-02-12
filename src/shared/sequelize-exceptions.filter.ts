@@ -1,10 +1,10 @@
 import { ExceptionFilter, Catch, ArgumentsHost } from '@nestjs/common'
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { QueryFailedError, EntityNotFoundError, TypeORMError } from 'typeorm'
+import { Error, QueryError, EmptyResultError, ValidationError } from 'sequelize'
 
-@Catch(QueryFailedError, EntityNotFoundError)
-export class TypeormExceptionsFilter implements ExceptionFilter {
-  catch(exception: TypeORMError, host: ArgumentsHost) {
+@Catch(QueryError, EmptyResultError, ValidationError)
+export class SequelizeExceptionsFilter implements ExceptionFilter {
+  catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp()
     const request = ctx.getRequest<FastifyRequest>()
     const reply = ctx.getResponse<FastifyReply>()
@@ -14,7 +14,7 @@ export class TypeormExceptionsFilter implements ExceptionFilter {
       statusCode: status,
       timestamp: new Date().toISOString(),
       path: request.url,
-      message: `[TypeORM] ${exception.message}`,
+      message: `${exception.name}: ${exception.message}`,
     })
   }
 }
