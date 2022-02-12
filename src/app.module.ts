@@ -6,7 +6,6 @@ import { GroupsModule } from './groups/groups.module'
 import { SubjectsModule } from './subjects/subjects.module'
 import { TasksModule } from './tasks/tasks.module'
 import { AuthModule } from './auth/auth.module'
-import { MembershipsModule } from './memberships/memberships.module';
 
 @Module({
   imports: [
@@ -18,14 +17,13 @@ import { MembershipsModule } from './memberships/memberships.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       autoLoadEntities: true,
-      synchronize: true
+      synchronize: true,
     }),
     AuthModule,
     UsersModule,
     GroupsModule,
     SubjectsModule,
     TasksModule,
-    MembershipsModule,
   ],
 })
 export class AppModule {}

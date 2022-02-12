@@ -1,12 +1,13 @@
 import { Controller, Get, Post, Body, Request, UseGuards } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard'
 
 @Controller('users')
 @ApiTags('users')
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -16,8 +17,10 @@ export class UsersController {
   }
 
   @Get('me')
-  findMe(@Request() req) {
-    return this.usersService.findOne(req.user.email)
+  async findMe(@Request() req) {
+    const user = await this.usersService.findOne(req.user.email)
+    delete user.password
+    return user
   }
 
   // @Get(':email')
