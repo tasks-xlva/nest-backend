@@ -14,12 +14,12 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req) {
-    return this.authService.login(req.user)
+    return this.authService.getToken(req.user)
   }
 
   @UseGuards(JwtAuthGuard)
   @Post('refresh')
   async refresh(@Request() req) {
-    return this.authService.login(req.user)
+    return this.authService.getToken(req.user)
   }
 }
