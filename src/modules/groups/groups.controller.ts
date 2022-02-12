@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common'
 import { GroupsService } from './groups.service'
 import { CreateGroupDto } from './dto/create-group.dto'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
-import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard'
+import { JwtAuthGuard } from 'modules/auth/guards/jwt-auth.guard'
 
 @Controller('groups')
 @ApiTags('groups')

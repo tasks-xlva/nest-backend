@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
 import { TasksService } from './tasks.service'
 import { TasksController } from './tasks.controller'
-import { Task } from '@/tasks/entities/task.entity'
-import { Subject } from '@/subjects/entities/subject.entity'
+import { Task } from 'modules/tasks/entities/task.entity'
+import { Subject } from 'modules/subjects/entities/subject.entity'
 import { SequelizeModule } from '@nestjs/sequelize'
 
 @Module({

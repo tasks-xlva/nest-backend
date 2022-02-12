@@ -8,9 +8,9 @@ import {
   UpdatedAt,
   HasMany,
 } from 'sequelize-typescript'
-import { Group } from '@/groups/entities/group.entity'
+import { Group } from 'modules/groups/entities/group.entity'
 import { ApiHideProperty } from '@nestjs/swagger'
-import { Task } from '@/tasks/entities/task.entity'
+import { Task } from 'modules/tasks/entities/task.entity'
 
 @Table
 export class Subject extends Model {

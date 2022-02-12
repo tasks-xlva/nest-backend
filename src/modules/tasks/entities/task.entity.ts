@@ -1,5 +1,5 @@
 import { ApiHideProperty } from '@nestjs/swagger'
-import { Subject } from '@/subjects/entities/subject.entity'
+import { Subject } from 'modules/subjects/entities/subject.entity'
 import {
   AllowNull,
   Column,

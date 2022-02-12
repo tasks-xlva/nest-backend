@@ -7,7 +7,7 @@ import {
   HasMany,
 } from 'sequelize-typescript'
 import { DataTypes } from 'sequelize'
-import { Subject } from '@/subjects/entities/subject.entity'
+import { Subject } from 'modules/subjects/entities/subject.entity'
 
 @Table
 export class Group extends Model {

@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { GroupsModule } from './groups/groups.module'
-import { UsersModule } from './users/users.module'
-import { SubjectsModule } from './subjects/subjects.module'
-import { TasksModule } from './tasks/tasks.module'
-import { AuthModule } from './auth/auth.module'
+import { GroupsModule } from 'modules/groups/groups.module'
+import { UsersModule } from 'modules/users/users.module'
+import { SubjectsModule } from 'modules/subjects/subjects.module'
+import { TasksModule } from 'modules/tasks/tasks.module'
+import { AuthModule } from 'modules/auth/auth.module'
 import { SequelizeModule } from '@nestjs/sequelize'
 
 @Module({

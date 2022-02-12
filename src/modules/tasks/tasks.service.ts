@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { CreateTaskDto } from './dto/create-task.dto'
 import { UpdateTaskDto } from './dto/update-task.dto'
 import { Task } from './entities/task.entity'
-import { Subject } from '@/subjects/entities/subject.entity'
+import { Subject } from 'modules/subjects/entities/subject.entity'
 import { InjectModel } from '@nestjs/sequelize'
 
 @Injectable()

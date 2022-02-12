@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { CreateGroupDto } from './dto/create-group.dto'
 import { Group } from './entities/group.entity'
 import { InjectModel } from '@nestjs/sequelize'
-import { Subject } from '@/subjects/entities/subject.entity'
+import { Subject } from 'modules/subjects/entities/subject.entity'
 
 @Injectable()
 export class GroupsService {

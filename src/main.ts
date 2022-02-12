@@ -5,7 +5,7 @@ import {
 } from '@nestjs/platform-fastify'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { AppModule } from './app.module'
-import { SequelizeFilter } from '@/shared/sequelize.filter'
+import { SequelizeFilter } from 'shared/sequelize.filter'
 import { ValidationPipe } from '@nestjs/common'
 
 async function bootstrap() {

@@ -3,8 +3,8 @@ import { CreateSubjectDto } from './dto/create-subject.dto'
 import { UpdateSubjectDto } from './dto/update-subject.dto'
 import { InjectModel } from '@nestjs/sequelize'
 import { Subject } from './entities/subject.entity'
-import { Group } from '@/groups/entities/group.entity'
-import { Task } from '@/tasks/entities/task.entity'
+import { Group } from 'modules/groups/entities/group.entity'
+import { Task } from 'modules/tasks/entities/task.entity'
 
 @Injectable()
 export class SubjectsService {
