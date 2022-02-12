@@ -4,6 +4,7 @@ import { UpdateSubjectDto } from './dto/update-subject.dto'
 import { InjectModel } from '@nestjs/sequelize'
 import { Subject } from './entities/subject.entity'
 import { Group } from '@/groups/entities/group.entity'
+import { Task } from '@/tasks/entities/task.entity'
 
 @Injectable()
 export class SubjectsService {
@@ -13,6 +14,9 @@ export class SubjectsService {
 
     @InjectModel(Group)
     private groupsModel: typeof Group,
+
+    @InjectModel(Task)
+    private tasksModel: typeof Task,
   ) {}
 
   async create(createSubjectDto: CreateSubjectDto) {
@@ -36,15 +40,23 @@ export class SubjectsService {
       : this.subjectsModel.findAll()
   }
 
-  findOne(id: number): Promise<Subject> {
-    return this.subjectsModel.findOne({ where: { id } })
+  async findOne(id: number) {
+    return await this.subjectsModel.findOne({
+      where: { id },
+      include: this.tasksModel,
+    })
   }
 
   async update(id: number, updateSubjectDto: UpdateSubjectDto) {
-    return this.subjectsModel.update(updateSubjectDto, { where: { id } })
+    return (
+      await this.subjectsModel.findOne({
+        where: { id },
+        include: this.tasksModel,
+      })
+    ).update(updateSubjectDto)
   }
 
   async remove(id: number): Promise<void> {
-    await this.subjectsModel.truncate({ where: { id } })
+    await this.subjectsModel.destroy({ where: { id } })
   }
 }

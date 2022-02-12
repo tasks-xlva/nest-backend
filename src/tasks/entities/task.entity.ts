@@ -8,7 +8,6 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript'
-import { DataTypes } from 'sequelize'
 
 @Table
 export class Task extends Model {
@@ -20,8 +19,8 @@ export class Task extends Model {
   @Column
   description?: string
 
-  @Column({ type: DataTypes.TIME })
-  deadline?: string
+  @Column
+  deadline?: Date
 
   @ApiHideProperty()
   @ForeignKey(() => Subject)

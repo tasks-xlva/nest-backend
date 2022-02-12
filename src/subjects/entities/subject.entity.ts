@@ -4,19 +4,16 @@ import {
   Length,
   ForeignKey,
   Model,
-  PrimaryKey,
   CreatedAt,
   UpdatedAt,
+  HasMany,
 } from 'sequelize-typescript'
 import { Group } from '@/groups/entities/group.entity'
 import { ApiHideProperty } from '@nestjs/swagger'
+import { Task } from '@/tasks/entities/task.entity'
 
 @Table
 export class Subject extends Model {
-  @PrimaryKey
-  @Column
-  id: number
-
   @Column
   name: string
 
@@ -28,6 +25,9 @@ export class Subject extends Model {
   @ForeignKey(() => Group)
   @Column
   groupNumber: string
+
+  @HasMany(() => Task)
+  tasks: Task[]
 
   @CreatedAt
   createdAt: string

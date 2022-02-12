@@ -2,12 +2,16 @@ import { Injectable } from '@nestjs/common'
 import { CreateGroupDto } from './dto/create-group.dto'
 import { Group } from './entities/group.entity'
 import { InjectModel } from '@nestjs/sequelize'
+import { Subject } from '@/subjects/entities/subject.entity'
 
 @Injectable()
 export class GroupsService {
   constructor(
     @InjectModel(Group)
     private groupsModel: typeof Group,
+
+    @InjectModel(Subject)
+    private subjectsModel: typeof Subject,
   ) {}
 
   async create(createGroupDto: CreateGroupDto) {
@@ -15,10 +19,13 @@ export class GroupsService {
   }
 
   findAll() {
-    return this.groupsModel.findAll()
+    return this.groupsModel.findAll<Omit<Group, `subjects`>>()
   }
 
   findOne(number: string) {
-    return this.groupsModel.findOne({ where: { number } })
+    return this.groupsModel.findOne({
+      where: { number },
+      include: this.subjectsModel,
+    })
   }
 }

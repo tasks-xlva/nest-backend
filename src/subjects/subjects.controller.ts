@@ -7,13 +7,13 @@ import {
   Param,
   Delete,
   HttpCode,
-  Query, UseGuards,
+  Query,
+  UseGuards,
 } from '@nestjs/common'
 import { SubjectsService } from './subjects.service'
 import { CreateSubjectDto } from './dto/create-subject.dto'
 import { UpdateSubjectDto } from './dto/update-subject.dto'
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger'
-import { Subject } from './entities/subject.entity'
 import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard'
 
 @Controller('subjects')
@@ -36,7 +36,7 @@ export class SubjectsController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return new Subject(await this.subjectsService.findOne(+id))
+    return await this.subjectsService.findOne(+id)
   }
 
   @Patch(':id')
