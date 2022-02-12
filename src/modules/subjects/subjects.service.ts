@@ -1,10 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
+import { InjectModel } from '@nestjs/sequelize'
+
+import { Group } from 'modules/groups/group.entity'
+import { Task } from 'modules/tasks/task.entity'
+
 import { CreateSubjectDto } from './dto/create-subject.dto'
 import { UpdateSubjectDto } from './dto/update-subject.dto'
-import { InjectModel } from '@nestjs/sequelize'
-import { Subject } from './entities/subject.entity'
-import { Group } from 'modules/groups/entities/group.entity'
-import { Task } from 'modules/tasks/entities/task.entity'
+import { Subject } from './subject.entity'
+
 
 @Injectable()
 export class SubjectsService {
@@ -25,7 +28,7 @@ export class SubjectsService {
     })
 
     if (!group) {
-      throw new NotFoundException('Provided group not found')
+      throw new NotFoundException(`Provided group not found`)
     }
 
     return this.subjectsModel.create({

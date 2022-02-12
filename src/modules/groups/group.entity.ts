@@ -1,3 +1,4 @@
+import { DataTypes } from 'sequelize'
 import {
   Table,
   Column,
@@ -6,8 +7,8 @@ import {
   AllowNull,
   HasMany,
 } from 'sequelize-typescript'
-import { DataTypes } from 'sequelize'
-import { Subject } from 'modules/subjects/entities/subject.entity'
+
+import { Subject } from 'modules/subjects/subject.entity'
 
 @Table
 export class Group extends Model {

@@ -11,14 +11,16 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common'
-import { TasksService } from './tasks.service'
-import { CreateTaskDto } from './dto/create-task.dto'
-import { UpdateTaskDto } from './dto/update-task.dto'
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger'
+
 import { JwtAuthGuard } from 'modules/auth/guards/jwt-auth.guard'
 
-@Controller('tasks')
-@ApiTags('tasks')
+import { CreateTaskDto } from './dto/create-task.dto'
+import { UpdateTaskDto } from './dto/update-task.dto'
+import { TasksService } from './tasks.service'
+
+@Controller(`tasks`)
+@ApiTags(`tasks`)
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class TasksController {
@@ -30,27 +32,27 @@ export class TasksController {
   }
 
   @Get()
-  @ApiQuery({ name: 'subject', type: 'number', required: false })
-  findAll(@Query('subject') subject) {
+  @ApiQuery({ name: `subject`, type: `number`, required: false })
+  findAll(@Query(`subject`) subject) {
     return this.tasksService.findAll(subject)
   }
 
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  @Get(`:id`)
+  findOne(@Param(`id`, ParseIntPipe) id: number) {
     return this.tasksService.findOne(+id)
   }
 
-  @Patch(':id')
+  @Patch(`:id`)
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param(`id`, ParseIntPipe) id: number,
     @Body() updateTaskDto: UpdateTaskDto,
   ) {
     return this.tasksService.update(+id, updateTaskDto)
   }
 
-  @Delete(':id')
+  @Delete(`:id`)
   @HttpCode(204)
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param(`id`, ParseIntPipe) id: number) {
     return this.tasksService.remove(+id)
   }
 }

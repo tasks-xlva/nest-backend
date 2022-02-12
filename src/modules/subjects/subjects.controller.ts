@@ -10,14 +10,16 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common'
-import { SubjectsService } from './subjects.service'
-import { CreateSubjectDto } from './dto/create-subject.dto'
-import { UpdateSubjectDto } from './dto/update-subject.dto'
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger'
+
 import { JwtAuthGuard } from 'modules/auth/guards/jwt-auth.guard'
 
-@Controller('subjects')
-@ApiTags('subjects')
+import { CreateSubjectDto } from './dto/create-subject.dto'
+import { UpdateSubjectDto } from './dto/update-subject.dto'
+import { SubjectsService } from './subjects.service'
+
+@Controller(`subjects`)
+@ApiTags(`subjects`)
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class SubjectsController {
@@ -29,24 +31,24 @@ export class SubjectsController {
   }
 
   @Get()
-  @ApiQuery({ name: 'group', type: 'string', required: false })
-  findAll(@Query('group') group) {
+  @ApiQuery({ name: `group`, type: `string`, required: false })
+  findAll(@Query(`group`) group) {
     return this.subjectsService.findAll(group)
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
+  @Get(`:id`)
+  async findOne(@Param(`id`) id: string) {
     return await this.subjectsService.findOne(+id)
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSubjectDto: UpdateSubjectDto) {
+  @Patch(`:id`)
+  update(@Param(`id`) id: string, @Body() updateSubjectDto: UpdateSubjectDto) {
     return this.subjectsService.update(+id, updateSubjectDto)
   }
 
-  @Delete(':id')
+  @Delete(`:id`)
   @HttpCode(204)
-  remove(@Param('id') id: string) {
+  remove(@Param(`id`) id: string) {
     return this.subjectsService.remove(+id)
   }
 }

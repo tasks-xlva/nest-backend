@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common'
-import { SubjectsService } from './subjects.service'
-import { SubjectsController } from './subjects.controller'
-import { Subject } from './entities/subject.entity'
-import { Group } from 'modules/groups/entities/group.entity'
 import { SequelizeModule } from '@nestjs/sequelize'
-import { Task } from 'modules/tasks/entities/task.entity'
+
+import { Group } from 'modules/groups/group.entity'
+import { Task } from 'modules/tasks/task.entity'
+
+import { Subject } from './subject.entity'
+import { SubjectsController } from './subjects.controller'
+import { SubjectsService } from './subjects.service'
 
 @Module({
   imports: [SequelizeModule.forFeature([Subject, Group, Task])],

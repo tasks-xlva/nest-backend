@@ -1,8 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
-import { CreateUserDto } from './dto/create-user.dto'
-import { User } from './entities/user.entity'
-import { hash } from 'bcrypt'
 import { InjectModel } from '@nestjs/sequelize'
+import { hash } from 'bcrypt'
+
+import { CreateUserDto } from './dto/create-user.dto'
+import { User } from './user.entity'
+
 
 @Injectable()
 export class UsersService {
@@ -12,8 +14,8 @@ export class UsersService {
   ) {}
 
   async validateUser(
-    email: User['email'],
-    pass: User['password'],
+    email: User[`email`],
+    pass: User[`password`],
   ): Promise<any> {
     const user = await this.userModel.findOne({ where: { email } })
     if (user && user.password === pass) {
@@ -38,7 +40,7 @@ export class UsersService {
   //   return this.usersRepository.find()
   // }
 
-  async findOne(email: User['email']) {
+  async findOne(email: User[`email`]) {
     return await this.userModel.findOne({ where: { email } })
   }
 

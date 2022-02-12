@@ -1,5 +1,5 @@
-import { Column, Model, Table, AllowNull } from 'sequelize-typescript'
 import { ApiHideProperty } from '@nestjs/swagger'
+import { Column, Model, Table, AllowNull } from 'sequelize-typescript'
 
 @Table
 export class User extends Model {

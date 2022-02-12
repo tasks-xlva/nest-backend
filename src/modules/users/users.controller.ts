@@ -1,11 +1,13 @@
 import { Controller, Get, Post, Body, Request, UseGuards } from '@nestjs/common'
-import { UsersService } from './users.service'
-import { CreateUserDto } from './dto/create-user.dto'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+
 import { JwtAuthGuard } from 'modules/auth/guards/jwt-auth.guard'
 
-@Controller('users')
-@ApiTags('users')
+import { CreateUserDto } from './dto/create-user.dto'
+import { UsersService } from './users.service'
+
+@Controller(`users`)
+@ApiTags(`users`)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -18,7 +20,7 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @Get('me')
+  @Get(`me`)
   async findMe(@Request() req) {
     const user = (await this.usersService.findOne(req.user.email)).toJSON()
     delete user?.password

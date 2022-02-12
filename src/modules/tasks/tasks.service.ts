@@ -1,9 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
+import { InjectModel } from '@nestjs/sequelize'
+
+import { Subject } from 'modules/subjects/subject.entity'
+
 import { CreateTaskDto } from './dto/create-task.dto'
 import { UpdateTaskDto } from './dto/update-task.dto'
-import { Task } from './entities/task.entity'
-import { Subject } from 'modules/subjects/entities/subject.entity'
-import { InjectModel } from '@nestjs/sequelize'
+import { Task } from './task.entity'
 
 @Injectable()
 export class TasksService {
@@ -21,7 +23,7 @@ export class TasksService {
     })
 
     if (!subject) {
-      throw new NotFoundException('Provided subject not found')
+      throw new NotFoundException(`Provided subject not found`)
     }
 
     return this.tasksModel.create({

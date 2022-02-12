@@ -1,11 +1,13 @@
 import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common'
-import { GroupsService } from './groups.service'
-import { CreateGroupDto } from './dto/create-group.dto'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+
 import { JwtAuthGuard } from 'modules/auth/guards/jwt-auth.guard'
 
-@Controller('groups')
-@ApiTags('groups')
+import { CreateGroupDto } from './dto/create-group.dto'
+import { GroupsService } from './groups.service'
+
+@Controller(`groups`)
+@ApiTags(`groups`)
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class GroupsController {
@@ -21,8 +23,8 @@ export class GroupsController {
     return this.groupsService.findAll()
   }
 
-  @Get(':number')
-  findOne(@Param('number') number: string) {
+  @Get(`:number`)
+  findOne(@Param(`number`) number: string) {
     return this.groupsService.findOne(number)
   }
 }

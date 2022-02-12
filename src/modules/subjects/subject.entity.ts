@@ -1,3 +1,4 @@
+import { ApiHideProperty } from '@nestjs/swagger'
 import {
   Column,
   Table,
@@ -8,9 +9,9 @@ import {
   UpdatedAt,
   HasMany,
 } from 'sequelize-typescript'
-import { Group } from 'modules/groups/entities/group.entity'
-import { ApiHideProperty } from '@nestjs/swagger'
-import { Task } from 'modules/tasks/entities/task.entity'
+
+import { Group } from 'modules/groups/group.entity'
+import { Task } from 'modules/tasks/task.entity'
 
 @Table
 export class Subject extends Model {

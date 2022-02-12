@@ -1,5 +1,4 @@
 import { ApiHideProperty } from '@nestjs/swagger'
-import { Subject } from 'modules/subjects/entities/subject.entity'
 import {
   AllowNull,
   Column,
@@ -8,6 +7,8 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript'
+
+import { Subject } from 'modules/subjects/subject.entity'
 
 @Table
 export class Task extends Model {

@@ -1,12 +1,14 @@
+import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
-import { AppModule } from './app.module'
+
 import { SequelizeFilter } from 'shared/sequelize.filter'
-import { ValidationPipe } from '@nestjs/common'
+
+import { AppModule } from './app.module'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -19,15 +21,15 @@ async function bootstrap() {
   app.useGlobalFilters(new SequelizeFilter())
 
   const config = new DocumentBuilder()
-    .setTitle('Tasks API')
-    .setVersion('1')
+    .setTitle(`Tasks API`)
+    .setVersion(`1`)
     .addBearerAuth()
     .build()
   const document = SwaggerModule.createDocument(app, config)
-  SwaggerModule.setup('', app, document, {
+  SwaggerModule.setup(``, app, document, {
     uiConfig: {
       persistAuthorization: true,
-      layout: 'BaseLayout',
+      layout: `BaseLayout`,
       displayRequestDuration: true,
     },
   })
