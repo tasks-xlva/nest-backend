@@ -1,9 +1,22 @@
-import { Column, Table, Length, ForeignKey, Model } from 'sequelize-typescript'
+import {
+  Column,
+  Table,
+  Length,
+  ForeignKey,
+  Model,
+  PrimaryKey,
+  CreatedAt,
+  UpdatedAt,
+} from 'sequelize-typescript'
 import { Group } from '@/groups/entities/group.entity'
 import { ApiHideProperty } from '@nestjs/swagger'
 
 @Table
 export class Subject extends Model {
+  @PrimaryKey
+  @Column
+  id: number
+
   @Column
   name: string
 
@@ -15,4 +28,10 @@ export class Subject extends Model {
   @ForeignKey(() => Group)
   @Column
   groupNumber: string
+
+  @CreatedAt
+  createdAt: string
+
+  @UpdatedAt
+  updatedAt: string
 }

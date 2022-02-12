@@ -1,10 +1,13 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common'
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common'
 import { GroupsService } from './groups.service'
 import { CreateGroupDto } from './dto/create-group.dto'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard'
 
 @Controller('groups')
 @ApiTags('groups')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class GroupsController {
   constructor(private readonly groupsService: GroupsService) {}
 

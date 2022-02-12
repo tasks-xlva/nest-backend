@@ -17,7 +17,7 @@ export class SubjectsService {
 
   async create(createSubjectDto: CreateSubjectDto) {
     const group = await this.groupsModel.findOne({
-      where: { group: createSubjectDto.group },
+      where: { number: createSubjectDto.groupNumber },
     })
 
     if (!group) {
@@ -30,7 +30,7 @@ export class SubjectsService {
     })
   }
 
-  async findAll(groupNumber?: string): Promise<Subject[]> {
+  async findAll(groupNumber?: string) {
     return groupNumber
       ? this.subjectsModel.findAll({ where: { groupNumber } })
       : this.subjectsModel.findAll()

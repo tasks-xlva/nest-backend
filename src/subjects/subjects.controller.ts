@@ -7,16 +7,19 @@ import {
   Param,
   Delete,
   HttpCode,
-  Query,
+  Query, UseGuards,
 } from '@nestjs/common'
 import { SubjectsService } from './subjects.service'
 import { CreateSubjectDto } from './dto/create-subject.dto'
 import { UpdateSubjectDto } from './dto/update-subject.dto'
-import { ApiQuery, ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger'
 import { Subject } from './entities/subject.entity'
+import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard'
 
 @Controller('subjects')
 @ApiTags('subjects')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class SubjectsController {
   constructor(private readonly subjectsService: SubjectsService) {}
 
