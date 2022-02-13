@@ -5,6 +5,7 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
+import fastifyMultipart from 'fastify-multipart'
 
 import { SequelizeFilter } from 'shared/sequelize.filter'
 
@@ -16,6 +17,8 @@ async function bootstrap() {
     new FastifyAdapter({ logger: true }),
     { cors: { origin: `http://localhost:3000` } },
   )
+
+  await app.register(fastifyMultipart)
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }))
   app.useGlobalFilters(new SequelizeFilter())

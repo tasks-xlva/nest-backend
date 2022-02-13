@@ -18,11 +18,6 @@ export class GroupsController {
     return this.groupsService.create(createGroupDto)
   }
 
-  @Get()
-  findAll() {
-    return this.groupsService.findAll()
-  }
-
   @Get(`:number`)
   findOne(@Param(`number`) number: string) {
     return this.groupsService.findOne(number)

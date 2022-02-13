@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config'
 import { SequelizeModule } from '@nestjs/sequelize'
 
 import { AuthModule } from 'modules/auth/auth.module'
+import { FilesModule } from 'modules/files/files.module';
 import { GroupsModule } from 'modules/groups/groups.module'
 import { SubjectsModule } from 'modules/subjects/subjects.module'
 import { TasksModule } from 'modules/tasks/tasks.module'
@@ -26,6 +27,7 @@ import { UsersModule } from 'modules/users/users.module'
     UsersModule,
     SubjectsModule,
     TasksModule,
+    FilesModule,
   ],
 })
 export class AppModule {}

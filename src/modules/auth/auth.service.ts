@@ -15,7 +15,7 @@ export class AuthService {
   ) {}
 
   async validateLocalUser(email: User[`email`], password: User[`password`]) {
-    const user = await this.usersService.findOne(email)
+    const user = await this.usersService.findOnePopulated(email)
     if (user && (await compare(password, user.password))) {
       delete user.password
       return user
@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   async validateJWTUser(email: User[`email`]) {
-    const user = await this.usersService.findOne(email)
+    const user = await this.usersService.findOnePopulated(email)
     if (user) {
       delete user.password
       return user

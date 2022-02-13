@@ -12,19 +12,15 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
-    const user = (await this.usersService.create(createUserDto)).toJSON()
-    delete user?.password
-    return user
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.create(createUserDto)
   }
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Get(`me`)
-  async findMe(@Request() req) {
-    const user = (await this.usersService.findOne(req.user.email)).toJSON()
-    delete user?.password
-    return user
+  findMe(@Request() req) {
+    return this.usersService.findOne(req.user.email)
   }
 
   // @Get(':email')

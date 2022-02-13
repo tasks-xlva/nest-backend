@@ -5,7 +5,6 @@ import { hash } from 'bcrypt'
 import { CreateUserDto } from './dto/create-user.dto'
 import { User } from './user.entity'
 
-
 @Injectable()
 export class UsersService {
   constructor(
@@ -39,6 +38,13 @@ export class UsersService {
   // findAll() {
   //   return this.usersRepository.find()
   // }
+
+  async findOnePopulated(email: User[`email`]) {
+    return await this.userModel.findOne({
+      where: { email },
+      attributes: { exclude: [`password`] },
+    })
+  }
 
   async findOne(email: User[`email`]) {
     return await this.userModel.findOne({ where: { email } })
