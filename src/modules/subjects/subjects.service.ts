@@ -37,10 +37,11 @@ export class SubjectsService {
   }
 
   async findAll(number?: string) {
+    if (!number) {
+      return this.subjectsModel.findAll()
+    }
     const group = await this.groupsModel.findOne({ where: { number } })
-    return number
-      ? this.subjectsModel.findAll({ where: { groupId: group.id } })
-      : this.subjectsModel.findAll()
+    return this.subjectsModel.findAll({ where: { groupId: group.id } })
   }
 
   async findOne(id: number) {

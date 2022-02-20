@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 
-import { Membership } from 'modules/memberships/membership.entity'
+import { Membership, Role } from 'modules/memberships/membership.entity'
 import { Subject } from 'modules/subjects/subject.entity'
 import { User } from 'modules/users/user.entity'
 
@@ -32,6 +32,7 @@ export class GroupsService {
     await this.membershipsModel.create({
       groupId: group.id,
       userId: user.id,
+      role: Role.Admin,
     })
     return group
   }
@@ -65,6 +66,7 @@ export class GroupsService {
     return this.membershipsModel.create({
       groupId: group.id,
       userId: user.id,
+      role: Role.Admin,
     })
   }
 }
