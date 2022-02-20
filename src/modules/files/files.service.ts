@@ -19,12 +19,4 @@ export class FilesService {
     const { file, filename } = await req.file()
     await pump(file, createWriteStream(join(process.cwd(), `media`, filename)))
   }
-
-  findAll() {
-    return `This action returns all files`
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} file`
-  }
 }

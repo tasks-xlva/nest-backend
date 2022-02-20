@@ -40,14 +40,14 @@ export class UsersService {
   // }
 
   async findOnePopulated(email: User[`email`]) {
+    return await this.userModel.findOne({ where: { email } })
+  }
+
+  async findOne(email: User[`email`]) {
     return await this.userModel.findOne({
       where: { email },
       attributes: { exclude: [`password`] },
     })
-  }
-
-  async findOne(email: User[`email`]) {
-    return await this.userModel.findOne({ where: { email } })
   }
 
   // async update(id: number, updateUserDto: UpdateUserDto) {

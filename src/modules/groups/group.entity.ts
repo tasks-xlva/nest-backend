@@ -1,18 +1,11 @@
+import { ApiHideProperty } from '@nestjs/swagger'
 import { DataTypes } from 'sequelize'
-import {
-  Table,
-  Column,
-  PrimaryKey,
-  Model,
-  AllowNull,
-  HasMany,
-} from 'sequelize-typescript'
+import { Table, Column, Model, AllowNull, HasMany } from 'sequelize-typescript'
 
+import { Membership } from 'modules/memberships/membership.entity'
 import { Subject } from 'modules/subjects/subject.entity'
 
-@Table
-export class Group extends Model {
-  @PrimaryKey
+export class FlatGroup extends Model {
   @Column
   number: string
 
@@ -23,7 +16,14 @@ export class Group extends Model {
     unique: `uuid`,
   })
   uuid: string
+}
 
+@Table
+export class Group extends FlatGroup {
   @HasMany(() => Subject)
   subjects: Subject[]
+
+  @ApiHideProperty()
+  @HasMany(() => Membership)
+  memberships: Membership[]
 }

@@ -25,7 +25,7 @@ export class Subject extends Model {
   @ApiHideProperty()
   @ForeignKey(() => Group)
   @Column
-  groupNumber: string
+  groupId: number
 
   @HasMany(() => Task)
   tasks: Task[]

@@ -8,7 +8,6 @@ import { CreateSubjectDto } from './dto/create-subject.dto'
 import { UpdateSubjectDto } from './dto/update-subject.dto'
 import { Subject } from './subject.entity'
 
-
 @Injectable()
 export class SubjectsService {
   constructor(
@@ -37,9 +36,10 @@ export class SubjectsService {
     })
   }
 
-  async findAll(groupNumber?: string) {
-    return groupNumber
-      ? this.subjectsModel.findAll({ where: { groupNumber } })
+  async findAll(number?: string) {
+    const group = await this.groupsModel.findOne({ where: { number } })
+    return number
+      ? this.subjectsModel.findAll({ where: { groupId: group.id } })
       : this.subjectsModel.findAll()
   }
 
