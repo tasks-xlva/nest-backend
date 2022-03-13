@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
+import { Op } from 'sequelize'
 
 import { Subject } from 'modules/subjects/subject.entity'
 
@@ -32,10 +33,27 @@ export class TasksService {
     })
   }
 
-  async findAll(subjectId?: number): Promise<Task[]> {
-    return subjectId
-      ? this.tasksModel.findAll({ where: { subjectId } })
-      : this.tasksModel.findAll()
+  async findAll({
+    subject: subjectId,
+    search,
+  }: {
+    subject?: number
+    search?: string
+  }): Promise<Task[]> {
+    const query: {
+      name?: Record<string, string>
+      subjectId?: number
+    } = {}
+
+    if (subjectId) {
+      query.subjectId = subjectId
+    }
+
+    if (search) {
+      query.name = { [Op.iLike]: `%${search}%` }
+    }
+
+    return this.tasksModel.findAll({ where: query })
   }
 
   findOne(id: number): Promise<Task> {

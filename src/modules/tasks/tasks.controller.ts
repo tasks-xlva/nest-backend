@@ -33,8 +33,8 @@ export class TasksController {
 
   @Get()
   @ApiQuery({ name: `subject`, type: `number`, required: false })
-  findAll(@Query(`subject`) subject) {
-    return this.tasksService.findAll(subject)
+  findAll(@Query(`subject`) subject, @Query(`search`) search) {
+    return this.tasksService.findAll({ subject, search })
   }
 
   @Get(`:id`)

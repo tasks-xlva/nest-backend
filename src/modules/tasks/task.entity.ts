@@ -2,6 +2,7 @@ import { ApiHideProperty } from '@nestjs/swagger'
 import {
   AllowNull,
   Column,
+  DataType,
   ForeignKey,
   Length,
   Model,
@@ -26,4 +27,7 @@ export class Task extends Model {
   @ApiHideProperty()
   @ForeignKey(() => Subject)
   subjectId: number
+
+  @Column(DataType.ARRAY(DataType.TEXT))
+  files: string[]
 }

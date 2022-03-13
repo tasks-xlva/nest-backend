@@ -23,4 +23,8 @@ export class CreateTaskDto {
   @IsNumber()
   @IsNotEmpty()
   subjectId: number
+
+  @IsOptional()
+  @IsString({ each: true })
+  files: string[]
 }

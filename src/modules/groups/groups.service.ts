@@ -37,8 +37,14 @@ export class GroupsService {
     return group
   }
 
-  findAll() {
-    return this.groupsModel.findAll<FlatGroup>()
+  findAll(user: User) {
+    return this.groupsModel.findAll<FlatGroup>({
+      where: { '$memberships.userId$': user.id },
+      include: {
+        model: this.membershipsModel,
+        as: `memberships`,
+      },
+    })
   }
 
   findOne(number: string) {

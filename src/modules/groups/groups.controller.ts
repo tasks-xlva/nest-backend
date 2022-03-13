@@ -20,8 +20,8 @@ export class GroupsController {
   }
 
   @Get()
-  findAll() {
-    return this.groupsService.findAll()
+  findAll(@Request() req) {
+    return this.groupsService.findAll(req.user)
   }
 
   @Get(`:number`)

@@ -1,4 +1,12 @@
-import { Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common'
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common'
 import {
   ApiBearerAuth,
   ApiBody,
@@ -6,8 +14,8 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger'
-import { FastifyRequest } from 'fastify'
-import { createReadStream } from 'fs'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { readFile } from 'fs'
 import { join } from 'path'
 
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
@@ -45,7 +53,9 @@ export class FilesController {
     },
   })
   @Get(`:filename`)
-  findOne(@Param(`filename`) filename: string) {
-    return createReadStream(join(process.cwd(), `media`, filename))
+  async findOne(@Param(`filename`) filename: string, @Res() res: FastifyReply) {
+    readFile(join(process.cwd(), `media`, filename), (err, fileBuffer) =>
+      res.send(err || fileBuffer),
+    )
   }
 }
